@@ -49,5 +49,5 @@ class Reading(models.Model):
   power_cycle = models.IntegerField('power cycle count')
 
   def __unicode__(self):
-    return '%s::%skWh@%s' % (self.station, self.watt_hours / 1000, self.timestamp.strftime('%Y-%m-%dT%H:%M:%S'))
+    return '%s::%skWh@%s' % (self.station, int(self.watt_hours) / 1000, self.timestamp.strftime('%Y-%m-%dT%H:%M:%S'))
 

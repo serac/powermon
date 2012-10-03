@@ -81,7 +81,9 @@ def record(request):
   reading.power_cycle = request.POST['pcy']
   reading.save()
 
-  return HttpResponse('Recorded %s' % reading)
+  message = 'Recorded %s' % reading
+  logger.info(message)
+  return HttpResponse(message)
 
 
 def select_station(request):

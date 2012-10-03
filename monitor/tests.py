@@ -63,3 +63,23 @@ class UtilTest(TestCase):
   def test_epoch(self):
     test_date = datetime.strptime('2012-01-01 13:00:05', '%Y-%m-%d %H:%M:%S')
     self.assertEquals(epoch(test_date), 1325440805000 - 3600 * 1000 * 5)
+
+class ReadingTest(TestCase):
+  def test_reading(self):
+    test_date_string = '2012-01-01T13:00:05'
+    test_date = datetime.strptime(test_date_string, '%Y-%m-%dT%H:%M:%S')
+    station = Station.objects.create(id='12345', name='test_station')
+    reading = Reading.objects.create(
+        station=station,
+        ip_address='127.0.0.1',
+        timestamp=test_date,
+        watts=10,
+        volts=120,
+        amps=1,
+        watt_hours=102000,
+        power_factor=0,
+        frequency=60,
+        volt_amps=120,
+        relay_status=0,
+        power_cycle=0)
+    self.assertEquals(unicode(reading), 'test_station::102kWh@' + test_date_string)
