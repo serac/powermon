@@ -41,4 +41,4 @@ class AnalysisTest(TestCase):
 class UtilTest(TestCase):
   def test_epoch(self):
     test_date = datetime.strptime('2012-01-01 13:00:05', '%Y-%m-%d %H:%M:%S')
-    self.assertEquals(epoch(test_date), 1325440805000)
+    self.assertEquals(epoch(test_date), 1325440805000 - 3600 * 1000 * 5)
