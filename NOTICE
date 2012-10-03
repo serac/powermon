@@ -1,0 +1,9 @@
+Powermon power consumption data recording and analysis software.
+Copyright 2012 Virginia Polytechnic Institute and State University
+
+Powermon is dependent on the following software components:
+
+1. Python, http://docs.python.org/license.html
+2. Django, https://github.com/django/django/blob/master/LICENSE
+3. NumPy, http://numpy.scipy.org/license.html
+
