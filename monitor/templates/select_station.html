@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Select Station{% endblock %}
+
+{% block content %}
+<h1>Select Power Monitoring Station</h1>
+
+<form method="post">
+  <fieldset>
+    <legend>Station Selection</legend>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit" />
+  </fieldset>  
+</form>
+
+{% endblock %}

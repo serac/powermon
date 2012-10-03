@@ -1,0 +1,19 @@
+WSGIScriptAlias / {{ WSGI_ROOT }}/powermon/wsgi.py
+WSGIPythonPath {{ WSGI_ROOT }}
+
+<Directory {{ WSGI_ROOT }}/powermon>
+  <Files wsgi.py>
+    Order deny,allow
+    Allow from all
+  </Files>
+</Directory>
+
+Alias /robots.txt {{ STATIC_ROOT }}/robots.txt
+Alias /favicon.ico {{ STATIC_ROOT }}/favicon.ico
+Alias /static {{ STATIC_ROOT }}
+
+<Directory {{ STATIC_ROOT }}>
+  Order deny,allow
+  Allow from all
+</Directory>
+

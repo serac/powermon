@@ -1,0 +1,44 @@
+body {
+  margin:0;
+  padding:0;
+  background-color:#21660b;
+}
+
+#header {
+  width:600px;
+  height:62px;
+  background:#21660b url('images/chart-bg.png') no-repeat;
+  margin:auto auto;
+}
+
+#header img {
+  display:block;
+  width:340px;
+  height:62px;
+  margin:auto auto;
+}
+
+#content {
+  background-color:white;
+  margin:auto auto;
+  width:80%;
+  padding:10px;
+  box-shadow: 0 0 30px 5px #333;
+  -moz-box-shadow: 0 0 30px 5px #333;
+  -webkit-box-shadow: 0 0 30px 5px #333;
+}
+
+#footer {
+  margin:20px 0;
+}
+
+#footer p {
+  color:#efedfb;
+  font-size:0.9em;
+  text-align:center;
+}
+
+.plot {
+  width:800px;
+  height:400px;
+}

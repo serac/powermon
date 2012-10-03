@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Power Usage{% endblock %}
+
+{% block content %}
+<h1>Power Usage for <em>{{ station.name }}</em></h1>
+<div class="normal"><a href="{% url monitor.views.select_station %}">Change Station</a></div>
+<h2>7-day Power Usage Summary</h2>
+<div>Median kWh/day: <em>{{ median_kwh_day }}</em></div>
+<div>Total kWh: <em>{{ kwh_tot }}</em></div>
+<div>Max W: <em>{{ w_max }}</em></div>
+<div>Min W: <em>{{ w_min }}</em></div>
+
+<h2>Power Usage Past Hour</h2>
+<div id="plot_hour" class="plot"></div>
+
+<h2>Power Usage Past 24 Hours</h2>
+<div id="plot_day" class="plot"></div>
+
+<h2>Power Usage Past Week</h2>
+<div id="plot_week" class="plot"></div>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    plotSeries("{% url monitor.views.flotseries station.id 'watts' '1h' %}", $('#plot_hour'));
+    plotSeries("{% url monitor.views.flotseries station.id 'watts' '24h' %}", $('#plot_day'));
+    plotSeries("{% url monitor.views.flotseries station.id 'watts' '7d' %}", $('#plot_week'));
+  });
+</script>
+{% endblock %}
