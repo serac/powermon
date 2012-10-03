@@ -1,4 +1,5 @@
-# Powermon: Simple Web-based power consumption data capture and analysis software
+# Powermon:
+# Web-based power consumption data capture and analysis
 
 Powermon is a simple Django-based Web application for capturing data from a
 *watts up? .net* power meter that posts power consumption data to a Web endpoint
@@ -7,7 +8,7 @@ as well as analysis tools to determine and report trends.
 
 ## Dependencies
 
-1. Python >2.7
+1. Python >=2.7
 2. Django 1.4
 3. NumPy
 
