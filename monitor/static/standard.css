@@ -4,6 +4,14 @@ body {
   background-color:#21660b;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  color:#4d4452;
+}
+
+em {
+  font-weight: 700;
+}
+
 #header {
   width:600px;
   height:62px;
@@ -12,6 +20,7 @@ body {
 }
 
 #header img {
+  border:none;
   display:block;
   width:340px;
   height:62px;
@@ -22,10 +31,23 @@ body {
   background-color:white;
   margin:auto auto;
   width:80%;
-  padding:10px;
+  padding:16px;
   box-shadow: 0 0 30px 5px #333;
   -moz-box-shadow: 0 0 30px 5px #333;
   -webkit-box-shadow: 0 0 30px 5px #333;
+  border-radius:16px;
+  -moz-border-radius:16px;
+}
+
+#title {
+  color:black;
+  background-image: url('images/lightbulb-32x32.png');
+  background-repeat: no-repeat;
+  padding-left:38px;
+  padding-bottom:6px;
+  font-size:1.8em;
+  font-weight: bold;
+  border-bottom:2px dotted #4d4452;
 }
 
 #footer {
@@ -41,4 +63,36 @@ body {
 .plot {
   width:800px;
   height:400px;
+}
+
+.right {
+  float:right;
+}
+
+.clear {
+  clear:both;
+}
+
+.inline {
+  display:inline;
+}
+
+button, a.button, input[type=submit], input[type=cancel] {
+  font-size:0.9em;
+  font-weight:bold;
+  height:1.7em;
+  padding:3px 12px;
+  text-align:center;
+  text-decoration:none;
+  color:white;
+  background-color:#876c94;
+  background-image:url('images/violet-fade-bg.png');
+  background-repeat:repeat-x;
+  background-position:left bottom;
+  border-top:1px solid #a786b8;
+  border-left:1px solid #a786b8;
+  border-right:1px solid #665270;
+  border-bottom:1px solid #665270;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
 }

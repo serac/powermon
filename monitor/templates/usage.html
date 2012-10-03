@@ -3,13 +3,17 @@
 {% block title %}Power Usage{% endblock %}
 
 {% block content %}
-<h1>Power Usage for <em>{{ station.name }}</em></h1>
-<div class="normal"><a href="{% url monitor.views.select_station %}">Change Station</a></div>
+<h1 id="title">Power Usage for <em>{{ station.name }}</em></h1>
+<div class="right" style="position:relative;top:-3.4em">
+  <a class="button" href="{% url monitor.views.select_station %}">Change Station</a>
+</div>
 <h2>7-day Power Usage Summary</h2>
-<div>Median kWh/day: <em>{{ median_kwh_day }}</em></div>
-<div>Total kWh: <em>{{ kwh_tot }}</em></div>
-<div>Max W: <em>{{ w_max }}</em></div>
-<div>Min W: <em>{{ w_min }}</em></div>
+<ul class="indented">
+  <li>Median kWh/day: <em>{{ median_kwh_day }}</em></li>
+  <li>Total kWh: <em>{{ kwh_tot }}</em></li>
+  <li>Max W: <em>{{ w_max }}</em></li>
+  <li>Min W: <em>{{ w_min }}</em></li>
+</ul>
 
 <h2>Power Usage Past Hour</h2>
 <div id="plot_hour" class="plot"></div>
