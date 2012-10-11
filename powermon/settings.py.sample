@@ -3,6 +3,9 @@
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+# Relative URL to Django admin application
+ADMIN_URL = '/admin/'
+
 ADMINS = (
     ('Your Name Here', 'somebody@example.com'),
 )
@@ -190,3 +193,10 @@ LOGGING = {
         }
     }
 }
+
+# Security configuration
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+)
+LOGIN_URL = '/accounts/login/'
+LOGOUT_URL = '/accounts/logout/'

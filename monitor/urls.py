@@ -20,7 +20,7 @@
 #####################################################################
 
 from django.conf.urls import patterns, include, url
-from monitor.views import index, record, select_station, flotseries, usage
+from monitor.views import *
 
 urlpatterns = patterns('',
   url(r'^$', index),
@@ -28,4 +28,6 @@ urlpatterns = patterns('',
   url(r'^select_station/$', select_station),
   url(r'^flotseries/(\w+)/([a-z_|]+)/(\w{2,})/$', flotseries),
   url(r'^usage/$', usage),
+  url(r'^logout/$', logout),
+  url(r'^logout_success/$', logout_success),
 )

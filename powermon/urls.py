@@ -21,11 +21,13 @@
 
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from powermon.settings import ROOT_URL
+from powermon.settings import *
 
 admin.autodiscover()
 
 urlpatterns = patterns('',
   url('^' + ROOT_URL[1:], include('monitor.urls')),
-  url(r'^admin/', include(admin.site.urls)),
+  url('^' + LOGIN_URL[1:] + '$', 'django_cas.views.login'),
+  url('^' + LOGOUT_URL[1:] + '$', 'django_cas.views.logout'),
+  url('^' + ADMIN_URL[1:], include(admin.site.urls)),
 )

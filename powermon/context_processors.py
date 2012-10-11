@@ -19,8 +19,12 @@
 #
 #####################################################################
 
-from settings import ROOT_URL
+import settings
 
-def root_url(context):
-  """Adds the ROOT_URL setting to the template processing context."""
-  return {'ROOT_URL': ROOT_URL}
+def expose_url_settings(context):
+  """Exposes URL settings to the template processing context."""
+  template_map = {}
+  for setting in dir(settings):
+    if setting.endswith('_URL'):
+      template_map[setting] = getattr(settings, setting)
+  return template_map

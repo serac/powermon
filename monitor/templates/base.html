@@ -12,6 +12,13 @@
   <div id="header">
     <a href="{{ ROOT_URL }}"><img src="{{ STATIC_URL }}images/powermon.png"></a>
   </div>
+  {% if user.is_authenticated %}
+    <div id="links">
+      <a href="{{ ADMIN_URL }}">Administration</a>
+      <span>&bull;</span>
+      <a href="{{ ROOT_URL }}/logout/">Logout</a>
+    </div>
+  {% endif %}
   <div id="content">
     {% block content %}{% endblock %}
   </div>

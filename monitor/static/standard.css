@@ -48,6 +48,17 @@ em {
   margin:auto auto;
 }
 
+#links {
+  float:right;
+  padding-right:16px;
+  margin:6px 10% 12px 0;
+}
+
+#links a {
+  color:#665270;
+  text-decoration: none;
+}
+
 #content {
   background-color:white;
   margin:auto auto;

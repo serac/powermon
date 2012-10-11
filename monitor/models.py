@@ -23,7 +23,7 @@ from django.db import models
 
 
 class Station(models.Model):
-  """Power monitoring station descriptor"""
+  """Power monitoring station descriptor."""
   id = models.CharField(primary_key=True, max_length=20)
   name = models.CharField(max_length=100)
   description = models.CharField(max_length=500, null=True, blank=True)
@@ -34,7 +34,8 @@ class Station(models.Model):
 
 
 class Reading(models.Model):
-  """Power consumption reading provided by a monitoring station"""
+  """Power consumption reading provided by a monitoring station."""
+
   station = models.ForeignKey(Station)
   timestamp = models.DateTimeField(db_index=True)
   ip_address = models.CharField('IP address', max_length=40)
@@ -47,6 +48,11 @@ class Reading(models.Model):
   volt_amps = models.IntegerField('volt amps')
   relay_status = models.IntegerField('relay status')
   power_cycle = models.IntegerField('power cycle count')
+
+  class Meta:
+    permissions = (
+        ('data_access', 'Can access power reading data'),
+    )
 
   def __unicode__(self):
     return '%s::%skWh@%s' % (self.station, int(self.watt_hours) / 1000, self.timestamp.strftime('%Y-%m-%dT%H:%M:%S'))
