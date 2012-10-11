@@ -136,6 +136,8 @@ def usage(request):
   interval = timedelta(7)
   start = end - interval
   readings = get_readings(station.id, start, end)
+  if len(readings) == 0:
+    return render_to_response('nodata.html', {'station': station}, context_instance=RequestContext(request))
   return render_to_response('usage.html',
     {
       'station': station,

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}No Data Available{% endblock %}
+
+{% block content %}
+<h1 id="title">No Data for <em>{{ station.name }}</em></h1>
+
+<p>Are you sure the power meter is connected and configured to POST data to the {{ ROOT_URL }}/record/ URI?<br>
+  Please check the hardware and cabling and contact the administrator for help if needed.</p>
+<p><a class="button" href="{% url monitor.views.select_station %}">Change Station</a></p>
+
+{% endblock %}
