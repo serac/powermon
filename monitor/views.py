@@ -25,7 +25,7 @@ import json
 
 from datetime import datetime, timedelta
 from django import forms
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponse, HttpResponseServerError
 from django.shortcuts import redirect, render, render_to_response, get_object_or_404
 from django.template import RequestContext
@@ -98,7 +98,7 @@ def record(request):
   logger.info(message)
   return HttpResponse(message)
 
-@permission_required('monitor.data_access', raise_exception=True)
+@user_passes_test(has_data_access_permission)
 def select_station(request):
   """Handles selection of the station for which data summary and analysis views are generated.
   The selected station is persisted via client-side coookie."""
@@ -117,7 +117,7 @@ def select_station(request):
     context_instance=RequestContext(request))
 
 
-@permission_required('monitor.data_access', raise_exception=True)
+@user_passes_test(has_data_access_permission)
 def usage(request):
   """Generates a summary of power usage data for a particular station."""
   station = None
@@ -149,7 +149,7 @@ def usage(request):
     context_instance=RequestContext(request))
 
 
-@permission_required('monitor.data_access', raise_exception=True)
+@user_passes_test(has_data_access_permission)
 def flotseries(request, station_id, fields, period, end=datetime.today()):
   """Produces a JSON list of time series, one for each field, for the given power monitoring station.
   The end parameter is optional and is specified to mark the right-hand side of the time interval, otherwise the

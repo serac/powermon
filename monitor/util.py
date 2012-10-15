@@ -25,6 +25,7 @@ import re
 import time
 
 from datetime import datetime,timedelta
+from django.core.exceptions import PermissionDenied
 from monitor.models import Reading
 
 PERIOD_REGEX = re.compile(r'(\d+)([mhd])')
@@ -83,4 +84,15 @@ def epoch(dt):
 def get_readings(station_id, start, end):
   """Gets a sequence of power readings for the given station in the time interval [start, end]."""
   return Reading.objects.filter(station_id=station_id).filter(timestamp__gte=start).filter(timestamp__lte=end)
+
+
+def has_data_access_permission(user):
+  """Determines whether the user has the 'monitor.data_access' permission.
+  Returns true for an authenticated user without the permission, false for an unauthenticated user,
+  and raises a PermissionDenied exception for an authenticated user that does not have permission."""
+  if not user.is_authenticated():
+    return False
+  elif user.has_perm('monitor.data_access'):
+    return True
+  raise PermissionDenied('%s does not have monitor.data_access permission.' % user)
 
