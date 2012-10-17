@@ -33,7 +33,6 @@ application (strongly recommended).
 
 5. Integrate the application with a Web server using, for example, the WSGI
 framework. The following references are valuable for an Apache+WSGI setup:
-
   * https://docs.djangoproject.com/en/dev/howto/deployment/wsgi/
   * https://docs.djangoproject.com/en/dev/howto/deployment/wsgi/modwsgi/
 
