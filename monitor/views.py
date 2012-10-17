@@ -138,10 +138,15 @@ def usage(request):
   readings = get_readings(station.id, start, end)
   if len(readings) == 0:
     return render_to_response('nodata.html', {'station': station}, context_instance=RequestContext(request))
+
+  energy_series = energy_timeseries(readings)
+  median_usage = 'ERR'
+  if len(energy_series) > 0:
+     median_usage = median(energy_series) * 24 / 1000
   return render_to_response('usage.html',
     {
       'station': station,
-      'median_kwh_day': median(energy_timeseries(readings)) * 24 / 1000,
+      'median_kwh_day': median_usage,
       'kwh_tot': total_kWh(readings),
       'w_max' : max(r.watts for r in readings),
       'w_min' : min(r.watts for r in readings)
