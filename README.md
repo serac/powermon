@@ -26,7 +26,7 @@ platform such as mysql-python or psycopg2.
 4. Provision and initialize database with following command executed from
 within APPLICATION_ROOT:
 
-    python manage.py syncdb
+        python manage.py syncdb
 
   Be sure to create an admin user when prompted if using the Django admin
 application (strongly recommended).
@@ -39,9 +39,9 @@ framework. The following references are valuable for an Apache+WSGI setup:
   Additionally, the following command may be helpful for generating an Apache
 mod_wsgi configuration:
 
-    python manage.py genapachecfg
+        python manage.py genapachecfg
 
 6. Make application static content available to Web server using the following
 command:
 
-    python manage.py collectstatic
+        python manage.py collectstatic
