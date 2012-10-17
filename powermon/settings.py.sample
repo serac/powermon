@@ -128,6 +128,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'monitor.util.SecureTransportMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -200,3 +201,12 @@ AUTHENTICATION_BACKENDS = (
 )
 LOGIN_URL = '/accounts/login/'
 LOGOUT_URL = '/accounts/logout/'
+
+# Secure transport middleware configuration.
+# Either whitelist or blacklist
+# For whitelist strategy, require SSL only for listed paths.
+# For blacklist strategy, require SSL except for listed paths.
+SECURE_TRANSPORT_MODE = 'blacklist'
+SECURE_TRANSPORT_PATHS = (
+    '/powermon/record/',
+)

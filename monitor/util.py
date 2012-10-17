@@ -21,14 +21,49 @@
 
 import calendar
 import inspect
+import logging
 import re
 import time
 
 from datetime import datetime,timedelta
+from django.conf import settings
 from django.core.exceptions import PermissionDenied
+from django.http import HttpResponsePermanentRedirect
 from monitor.models import Reading
 
 PERIOD_REGEX = re.compile(r'(\d+)([mhd])')
+logger = logging.getLogger(__name__)
+
+class SecureTransportMiddleware(object):
+  """Uses either a whitelist or blacklist strategy to require HTTPS on select
+  request URIs.
+  For whitelist strategy, require SSL only for listed paths.
+  For blacklist strategy, require SSL except for listed paths."""
+  def __init__(self):
+    self.paths = getattr(settings, 'SECURE_TRANSPORT_PATHS')
+    self.mode = getattr(settings, 'SECURE_TRANSPORT_MODE').lower()
+    if self.mode != 'whitelist' and self.mode != 'blacklist':
+      raise Exception('Invalid SecureTransportMiddleware mode ' + self.mode)
+
+
+  def process_request(self, request):
+    """Issues a redirect to HTTPS for insecure requests that meet the criteria
+    defined by both mode and list of applicable paths."""
+    result = None
+    if not request.is_secure():
+      absolute_url = request.build_absolute_uri(request.get_full_path())
+      redirect_result = HttpResponsePermanentRedirect(absolute_url.replace('http://', 'https://'))
+      match = False
+      for path in self.paths:
+        if request.get_full_path().startswith(path):
+          logger.debug('Request matches SECURE_TRANSPORT_PATH ' + path)
+          match = True
+          break
+      if self.mode == 'whitelist':
+        result = match and redirect_result or None
+      else:
+        result = not match and redirect_result or None
+    return result
 
 
 def queryset_to_list(queryset, *fields, **kwargs):
