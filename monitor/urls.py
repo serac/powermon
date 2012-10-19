@@ -30,4 +30,5 @@ urlpatterns = patterns('',
   url(r'^usage/$', usage),
   url(r'^logout/$', logout),
   url(r'^logout_success/$', logout_success),
+  url(r'^status/$', status)
 )

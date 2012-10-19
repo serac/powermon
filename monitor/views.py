@@ -33,6 +33,7 @@ from django.views.decorators.csrf import csrf_exempt
 from monitor.analysis import *
 from monitor.models import Reading, Station
 from monitor.util import *
+from powermon.settings import *
 from types import *
 
 ISO_FORMAT = '%Y-%m-%dT%H:%M:%S'
@@ -173,3 +174,28 @@ def flotseries(request, station_id, fields, period, end=datetime.today()):
   for i in range(len(fieldlist)):
     flot_data.append({'data': series[i], 'label': fieldlist[i]})
   return HttpResponse(json.dumps(flot_data), content_type=JSON_MIMETYPE)
+
+
+def status(request):
+  """Presents a status page that provides a suitable target for health checks."""
+  reading_map = {}
+  end = datetime.today()
+  interval = timedelta(minutes=STATUS_TIMEOUT)
+  start = end - interval
+  zero_count = 0
+  for station in Station.objects.all():
+    readings = get_readings(station.id, start, end)
+    if len(readings) == 0:
+      zero_count += 1
+    reading_map[station.name] = readings
+  result = 'OK'
+  code = 200
+  if zero_count == len(reading_map):
+    result = 'ERROR: no stations have reported data in the past %s' % interval
+    code = 500
+  elif zero_count > 0:
+    result = 'WARN: at least one station has not reported data in the past %s' % interval
+    code = 306
+  message = '%s\n\nStation reading counts in past %s\n' % (result, interval)
+  message += '\n'.join(['%s\t\t%s' % (k, len(v)) for (k, v) in reading_map.items()])
+  return HttpResponse(message, 'text/plain', code)

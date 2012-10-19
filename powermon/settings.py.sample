@@ -210,3 +210,8 @@ SECURE_TRANSPORT_MODE = 'blacklist'
 SECURE_TRANSPORT_PATHS = (
     '/powermon/record/',
 )
+
+
+# Threshold in minutes after which one or more stations not reporting data
+# triggers the ERROR (all) or WARN (more than one) states of the status URI
+STATUS_TIMEOUT = 10
