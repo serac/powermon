@@ -156,7 +156,7 @@ def usage(request):
 
 
 @user_passes_test(has_data_access_permission)
-def flotseries(request, station_id, fields, period, end=datetime.today()):
+def flotseries(request, station_id, fields, period, end=None):
   """Produces a JSON list of time series, one for each field, for the given power monitoring station.
   The end parameter is optional and is specified to mark the right-hand side of the time interval, otherwise the
   current time is used. Times nust be in ISO format, 'YYYY-mm-ddTHH:MM:SS'.
@@ -164,7 +164,9 @@ def flotseries(request, station_id, fields, period, end=datetime.today()):
   The time interval for the data set is the interval [t - period, t], inclusive, where t is either end or the
   current time.
   The JSON string conforms to that required by the flot API, http://flot.googlecode.com/svn/trunk/API.txt"""
-  if type(end) is StringType:
+  if end is None:
+    end = datetime.today()
+  else:
     end = datetime.strptime(end, ISO_FORMAT)
   start = end - parse_period(period)
   fieldlist = fields.split('|')
