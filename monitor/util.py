@@ -118,10 +118,9 @@ def epoch(dt):
 
 def now():
   """Returns the value of NOW or the current system time if not defined."""
-  t = getattr(settings, 'NOW')
-  if t is None:
-    return datetime.today()
-  return t
+  if hasattr(settings, 'NOW'):
+    return getattr(settings, 'NOW')
+  return datetime.today()
 
 
 def get_readings(station_id, start, end):
