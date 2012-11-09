@@ -116,6 +116,14 @@ def epoch(dt):
   return calendar.timegm(dt.timetuple()) * 1000
 
 
+def now():
+  """Returns the value of NOW or the current system time if not defined."""
+  t = getattr(settings, 'NOW')
+  if t is None:
+    return datetime.today()
+  return t
+
+
 def get_readings(station_id, start, end):
   """Gets a sequence of power readings for the given station in the time interval [start, end]."""
   return Reading.objects.filter(station_id=station_id).filter(timestamp__gte=start).filter(timestamp__lte=end)

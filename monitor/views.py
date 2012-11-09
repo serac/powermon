@@ -82,7 +82,7 @@ def record(request):
 
   reading = Reading()
   reading.station = station
-  reading.timestamp = datetime.today()
+  reading.timestamp = now()
   reading.ip_address = request.META['REMOTE_ADDR']
   reading.watts = request.POST['w']
   reading.volts = request.POST['v']
@@ -133,7 +133,7 @@ def usage(request):
     if not station_id:
       return redirect(select_station)
     station = get_object_or_404(Station, id=station_id)
-  end = datetime.today()
+  end = now()
   interval = timedelta(7)
   start = end - interval
   readings = get_readings(station.id, start, end)
@@ -165,7 +165,7 @@ def flotseries(request, station_id, fields, period, end=None):
   current time.
   The JSON string conforms to that required by the flot API, http://flot.googlecode.com/svn/trunk/API.txt"""
   if end is None:
-    end = datetime.today()
+    end = now()
   else:
     end = datetime.strptime(end, ISO_FORMAT)
   start = end - parse_period(period)
@@ -181,7 +181,7 @@ def flotseries(request, station_id, fields, period, end=None):
 def status(request):
   """Presents a status page that provides a suitable target for health checks."""
   reading_map = {}
-  end = datetime.today()
+  end = now()
   interval = timedelta(minutes=STATUS_TIMEOUT)
   start = end - interval
   zero_count = 0
