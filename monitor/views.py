@@ -147,6 +147,7 @@ def usage(request):
   return render_to_response('usage.html',
     {
       'station': station,
+      'stations': '|'.join([s.id for s in Station.objects.all()]),
       'median_kwh_day': median_usage,
       'kwh_tot': total_kWh(readings),
       'w_max' : max(r.watts for r in readings),
@@ -156,8 +157,10 @@ def usage(request):
 
 
 @user_passes_test(has_data_access_permission)
-def flotseries(request, station_id, fields, period, end=None):
-  """Produces a JSON list of time series, one for each field, for the given power monitoring station.
+def flotseries(request, stations, variables, period, end=None):
+  """Produces a JSON list of time series for one or more power monitoring variables and one or more stations.
+  The stations and variables parameters are pipe-delimited lists of station IDs and power variables
+  (watts, amps,etc), respectively.
   The end parameter is optional and is specified to mark the right-hand side of the time interval, otherwise the
   current time is used. Times nust be in ISO format, 'YYYY-mm-ddTHH:MM:SS'.
   Periods are simple strings of the format nX where n is an integer and X is either h for hours or d for days.
@@ -169,12 +172,15 @@ def flotseries(request, station_id, fields, period, end=None):
   else:
     end = datetime.strptime(end, ISO_FORMAT)
   start = end - parse_period(period)
-  fieldlist = fields.split('|')
-  readings = get_readings(station_id, start, end)
-  series = timeseries(readings, *fieldlist)
+  stationlist = stations.split('|')
+  fieldlist = variables.split('|')
   flot_data = []
-  for i in range(len(fieldlist)):
-    flot_data.append({'data': series[i], 'label': fieldlist[i]})
+  for station_id in stationlist:
+    station = Station.objects.get(pk=station_id)
+    readings = get_readings(station_id, start, end)
+    series = timeseries(readings, *fieldlist)
+    for i in range(len(fieldlist)):
+      flot_data.append({'data': series[i], 'label': "%s - %s" % (fieldlist[i], station.name)})
   return HttpResponse(json.dumps(flot_data), content_type=JSON_MIMETYPE)
 
 

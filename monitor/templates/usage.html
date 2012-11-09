@@ -2,6 +2,24 @@
 
 {% block title %}Power Usage{% endblock %}
 
+{% block head %}
+  <style type="text/css">
+    .plot_title {
+      display:inline;
+    }
+    .plot {
+      margin-top:10px;
+      margin-bottom:26px;
+    }
+    .compare {
+      margin-left:20px;
+      position:relative;
+      top:-4px;
+    }
+  </style>
+{% endblock %}
+
+
 {% block content %}
 <h1 id="title">Power Usage for
 {% if station.doc_url %}
@@ -21,13 +39,16 @@
   <li>Min W: <em>{{ w_min }}</em></li>
 </ul>
 
-<h2>Power Usage Past Hour</h2>
+<h2 class="plot_title">Power Usage Past Hour</h2>
+<a id="compare_hour" class="button compare" href=".">Compare</a>
 <div id="plot_hour" class="plot"></div>
 
-<h2>Power Usage Past 24 Hours</h2>
+<h2 class="plot_title">Power Usage Past 24 Hours</h2>
+<a id="compare_day" class="button compare" href=".">Compare</a>
 <div id="plot_day" class="plot"></div>
 
-<h2>Power Usage Past Week</h2>
+<h2 class="plot_title">Power Usage Past Week</h2>
+<a id="compare_week" class="button compare" href=".">Compare</a>
 <div id="plot_week" class="plot"></div>
 
 <script type="text/javascript">
@@ -35,6 +56,18 @@
     plotSeries("{% url monitor.views.flotseries station.id 'watts' '1h' %}", $('#plot_hour'));
     plotSeries("{% url monitor.views.flotseries station.id 'watts' '24h' %}", $('#plot_day'));
     plotSeries("{% url monitor.views.flotseries station.id 'watts' '7d' %}", $('#plot_week'));
+  });
+  $("#compare_hour").click(function(e) {
+    e.preventDefault();
+    plotSeries("{% url monitor.views.flotseries stations 'watts' '1h' %}", $('#plot_hour'));
+  });
+  $("#compare_day").click(function(e) {
+    e.preventDefault();
+    plotSeries("{% url monitor.views.flotseries stations 'watts' '24h' %}", $('#plot_day'));
+  });
+  $("#compare_week").click(function(e) {
+    e.preventDefault();
+    plotSeries("{% url monitor.views.flotseries stations 'watts' '7d' %}", $('#plot_week'));
   });
 </script>
 {% endblock %}
