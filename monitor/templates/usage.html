@@ -3,7 +3,13 @@
 {% block title %}Power Usage{% endblock %}
 
 {% block content %}
-<h1 id="title">Power Usage for <em>{{ station.name }}</em></h1>
+<h1 id="title">Power Usage for
+{% if station.doc_url %}
+  <a href="{{ station.doc_url }}" title="Documentation URL for {{ station.name }}">{{ station.name }}</a>
+{% else %}
+  <em>{{ station.name }}</em>
+{% endif %}
+</h1>
 <div class="right" style="position:relative;top:-3.4em">
   <a class="button" href="{% url monitor.views.select_station %}">Change Station</a>
 </div>
