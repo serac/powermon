@@ -51,6 +51,8 @@
 <a id="compare_week" class="button compare" href=".">Compare</a>
 <div id="plot_week" class="plot"></div>
 
+<div id="loading"></div>
+
 <script type="text/javascript">
   $(document).ready(function () {
     plotSeries("{% url monitor.views.flotseries station.id 'watts' '1h' %}", $('#plot_hour'));
@@ -68,6 +70,12 @@
   $("#compare_week").click(function(e) {
     e.preventDefault();
     plotSeries("{% url monitor.views.flotseries stations 'watts' '7d' %}", $('#plot_week'));
+  });
+  $('#content').ajaxStart(function() {
+    $('#loading').show();
+  });
+  $('#content').ajaxStop(function() {
+    $('#loading').hide();
   });
 </script>
 {% endblock %}
