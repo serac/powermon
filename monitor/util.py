@@ -125,7 +125,10 @@ def now():
 
 def get_readings(station_id, start, end):
   """Gets a sequence of power readings for the given station in the time interval [start, end]."""
-  return Reading.objects.filter(station_id=station_id).filter(timestamp__gte=start).filter(timestamp__lte=end)
+  return Reading.objects.filter(
+    station_id=station_id,
+    timestamp__gte=start,
+    timestamp__lte=end)
 
 
 def has_data_access_permission(user):

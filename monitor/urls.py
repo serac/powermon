@@ -24,11 +24,12 @@ from monitor.views import *
 
 urlpatterns = patterns('',
   url(r'^$', index),
-  url(r'^record/$', record),
-  url(r'^select_station/$', select_station),
   url(r'^flotseries/([0-9A-Za-z._|]+)/([a-z_|]+)/(\w{2,})/$', flotseries),
-  url(r'^usage/$', usage),
+  url(r'^leaders/$', leaders),
   url(r'^logout/$', logout),
   url(r'^logout_success/$', logout_success),
-  url(r'^status/$', status)
+  url(r'^record/$', record),
+  url(r'^select_station/$', select_station),
+  url(r'^status/$', status),
+  url(r'^usage/$', usage),
 )

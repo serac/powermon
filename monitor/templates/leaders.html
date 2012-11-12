@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Leader Board{% endblock %}
+
+{% block head %}
+  <style type="text/css">
+    .left {
+      margin:0 20px;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+<h1 id="title">Top Power Sippers</h1>
+
+<div class="left">
+<h2>Daily Leaders</h2>
+<table id="daily_leaders">
+  <tr><th>Station</th><th>kWh</th></tr>
+  {% for e in leaders_day %}
+    <tr><td>{{ e.name }}</td><td>{{ e.total_kwh }}</td></tr>
+  {% endfor %}
+</table>
+</div>
+<div class="left">
+<h2>Weekly Leaders</h2>
+<table id="weekly_leaders">
+  <tr><th>Station</th><th>kWh</th></tr>
+  {% for e in leaders_week %}
+    <tr><td>{{ e.name }}</td><td>{{ e.total_kwh }}</td></tr>
+  {% endfor %}
+</table>
+</div>
+<div class="left">
+<h2>Monthly Leaders</h2>
+<table id="monthly_leaders">
+  <tr><th>Station</th><th>kWh</th></tr>
+  {% for e in leaders_month %}
+    <tr><td>{{ e.name }}</td><td>{{ e.total_kwh }}</td></tr>
+  {% endfor %}
+</table>
+</div>
+<div class="left">
+<h2>Overall Leaders</h2>
+<table id="overall_leaders">
+  <tr><th>Station</th><th>kWh</th></tr>
+  {% for e in leaders_overall %}
+    <tr><td>{{ e.name }}</td><td>{{ e.total_kwh }}</td></tr>
+  {% endfor %}
+</table>
+</div>
+
+<div class="clear"></div>
+
+{% endblock %}

@@ -33,6 +33,25 @@ em {
   font-weight: 700;
 }
 
+th, td {
+  margin:2px;
+  padding:4px;
+}
+
+td {
+  background-color:#c5b6cc;
+}
+
+th {
+  color:white;
+  background-color:#876c94;
+}
+
+/* Do not color flot chart legend tables */
+td.legendColorBox, td.legendLabel {
+  background-color:white;
+}
+
 #header {
   width:600px;
   height:62px;
@@ -49,14 +68,13 @@ em {
 }
 
 #links {
-  float:right;
-  padding-right:16px;
-  margin:6px 10% 12px 0;
+  text-align: center;
 }
 
 #links a {
   color:#665270;
   text-decoration: none;
+  margin: 0 5px;
 }
 
 #content {
@@ -107,6 +125,10 @@ em {
 .plot {
   width:800px;
   height:400px;
+}
+
+.left {
+  float:left;
 }
 
 .right {

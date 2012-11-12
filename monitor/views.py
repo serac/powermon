@@ -26,6 +26,7 @@ import json
 from datetime import datetime, timedelta
 from django import forms
 from django.contrib.auth.decorators import user_passes_test
+from django.db.models import Max, Min
 from django.http import HttpResponse, HttpResponseServerError
 from django.shortcuts import redirect, render, render_to_response, get_object_or_404
 from django.template import RequestContext
@@ -207,3 +208,34 @@ def status(request):
   message = '%s\n\nStation reading counts in past %s\n' % (result, interval)
   message += '\n'.join(['%s\t\t%s' % (k, len(v)) for (k, v) in reading_map.items()])
   return HttpResponse(message, 'text/plain', code)
+
+
+@user_passes_test(has_data_access_permission)
+def leaders(request):
+  """Provides a view of stations sorted by increasing power usage for various time periods."""
+  end = now()
+  leaders = {}
+  period = ('24h', '7d', '30d', None)
+  for p in period:
+    if p is None:
+      stations = Station.objects.all()
+    else:
+      start = end - parse_period(p)
+      stations = Station.objects.filter(
+        reading__timestamp__gte=start,
+        reading__timestamp__lte=end)
+    leaders[p] = stations.annotate(
+      power_max=Max('reading__watt_hours'),
+      power_min=Min('reading__watt_hours'))
+    # Add computed attribute to each station
+    for row in leaders[p]:
+      setattr(row, 'total_kwh', (row.power_max - row.power_min) / 1000)
+    leaders[p] = sorted(leaders[p], key=lambda r: r.total_kwh)
+  return render_to_response('leaders.html',
+    {
+      'leaders_day': leaders['24h'],
+      'leaders_week': leaders['7d'],
+      'leaders_month': leaders['30d'],
+      'leaders_overall': leaders[None],
+    },
+    context_instance=RequestContext(request))

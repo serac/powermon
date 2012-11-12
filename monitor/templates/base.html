@@ -14,14 +14,20 @@
   <div id="header">
     <a href="{{ ROOT_URL }}"><img src="{{ STATIC_URL }}images/powermon.png"></a>
   </div>
-  {% if user.is_authenticated %}
-    <div id="links">
-      <a href="{{ ADMIN_URL }}">Administration</a>
-      <span>&bull;</span>
-      <a href="{{ ROOT_URL }}/logout/">Logout</a>
-    </div>
-  {% endif %}
   <div id="content">
+    {% if user.is_authenticated %}
+      <div id="links">
+        <a href="{{ ROOT_URL }}/leaders/">Leaders</a>
+        <span>&bull;</span>
+        <a href="{{ ROOT_URL }}/select_station/">Select Station</a>
+        <span>&bull;</span>
+        <a href="{{ ROOT_URL }}/usage/">Usage</a>
+        <span>&bull;</span>
+        <a href="{{ ADMIN_URL }}">Administration</a>
+        <span>&bull;</span>
+        <a href="{{ ROOT_URL }}/logout/">Logout</a>
+      </div>
+    {% endif %}
     {% block content %}{% endblock %}
   </div>
   <div id="footer">
