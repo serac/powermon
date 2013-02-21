@@ -206,7 +206,7 @@ def status(request):
     result = 'WARN: at least one station has not reported data in the past %s' % interval
     code = 306
   message = '%s\n\nStation reading counts in past %s\n' % (result, interval)
-  message += '\n'.join(['%s\t\t%s' % (k, len(v)) for (k, v) in reading_map.items()])
+  message += '\n'.join(['%-26s%d' % (k, len(v)) for (k, v) in reading_map.items()])
   return HttpResponse(message, 'text/plain', code)
 
 
