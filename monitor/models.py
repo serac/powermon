@@ -27,6 +27,7 @@ class Station(models.Model):
   id = models.CharField(primary_key=True, max_length=20)
   name = models.CharField(max_length=100)
   description = models.CharField(max_length=500, null=True, blank=True)
+  enabled = models.BooleanField(default=True)
   doc_url = models.CharField('documentation URL', max_length=100, null=True, blank=True)
 
   def __unicode__(self):

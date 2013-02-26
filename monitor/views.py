@@ -48,7 +48,7 @@ class StationForm(forms.Form):
   """Describes a station selection form."""
   station_id = forms.ChoiceField(
     label='Station',
-    choices=queryset_to_list(Station.objects.all(), 'id', 'name'))
+    choices=queryset_to_list(Station.objects.filter(enabled=True), 'id', 'name'))
 
 
 def index(request):
@@ -148,7 +148,7 @@ def usage(request):
   return render_to_response('usage.html',
     {
       'station': station,
-      'stations': '|'.join([s.id for s in Station.objects.all()]),
+      'stations': '|'.join([s.id for s in Station.objects.filter(enabled=True)]),
       'median_kwh_day': median_usage,
       'kwh_tot': total_kWh(readings),
       'w_max' : max(r.watts for r in readings),
@@ -192,7 +192,7 @@ def status(request):
   interval = timedelta(minutes=STATUS_TIMEOUT)
   start = end - interval
   zero_count = 0
-  for station in Station.objects.all():
+  for station in Station.objects.filter(enabled=True):
     readings = get_readings(station.id, start, end)
     if len(readings) == 0:
       zero_count += 1
@@ -218,10 +218,11 @@ def leaders(request):
   period = ('24h', '7d', '30d', None)
   for p in period:
     if p is None:
-      stations = Station.objects.all()
+      stations = Station.objects.filter(enabled=True)
     else:
       start = end - parse_period(p)
       stations = Station.objects.filter(
+        enabled=True,
         reading__timestamp__gte=start,
         reading__timestamp__lte=end)
     leaders[p] = stations.annotate(
